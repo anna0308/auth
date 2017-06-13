@@ -21,12 +21,12 @@ Route::get('register', 'Auth\RegisterController@getRegisterForm')->name('registe
 Route::post('register', 'Auth\RegisterController@postRegister');
 Route::get('/register/verify/{code}/{email}', 'Auth\RegisterController@verify');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/{url_n}', function () {
-    return redirect('/');
-});
-Route::get('login/{url_n}', function () {
-    return redirect('/');
-});
-Route::get('register/{url_n}', function () {
-    return redirect('/');
-});
+Route::get('login/{url_n}', function () {return redirect('/');});
+Route::get('register/{url_n}', function () {return redirect('/');});
+Route::post('/categories','CategoryController@store');
+Route::get('/categories','CategoryController@index');
+Route::get('/categories/create','CategoryController@create');
+Route::get('/{url_n}', function () {return redirect('/');});
+Route::delete('/categories/{id}','CategoryController@destroy');
+Route::get('/categories/{id}/edit','CategoryController@edit');
+Route::put('/categories/{id}','CategoryController@update');
