@@ -21,9 +21,11 @@
                     <div class="form-group ">
                         <label for="Title:">Category-title:</label>
                         <input class="form-control" placeholder="Enter Title" name="title" type="text">
-                        @foreach($errors->all() as $error)
-                            <strong style="color:red">{{$error}}</strong>
-                        @endforeach
+                         @if ($errors->has('title'))
+                            <span class="help-block">
+                                <strong style="color:red;">{{ $errors->first('title') }}</strong>
+                            </span>
+                        @endif
                         <span class="text-danger"></span>
                     </div>
                     <div class="form-group">

@@ -1,16 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Post;
 use App\Category;
 use App\User;
 
-class CategoryController extends Controller
+class PostController extends Controller
 {
-   
     /**
      * Display a listing of the resource.
      *
@@ -18,9 +17,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $categories = $user->categories; 
-        return view('category/categories', ['categories' => $categories]);
+        $user  = Auth::user();
+        $posts = $user->posts;
+        return view('post/posts',['posts' => $posts]);
     }
 
     /**
@@ -30,7 +29,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category/create');
+        $user = Auth::user();
+        $categories = $user->categories; 
+        return view('post/create',['categories' => $categories]);
     }
 
     /**
@@ -42,13 +43,15 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-                'title' => 'required',
+                'title' =>  'required',
+                'text'  =>  'required',
             ]);
-        Category::create([
+        Post::create([
             'title'      => $request->title,
-            'parent_id'  => Auth::user()->id,
+            'text'       => $request->text,
+            'category_id'   => $request->category_id,
         ]);
-        return redirect('/categories')->with('status', 'New Category added successfully.');
+        return redirect('/posts')->with('status', 'New Post added successfully.');
     }
 
     /**
@@ -61,13 +64,14 @@ class CategoryController extends Controller
     {
         //
     }
-    public function showAllCategories()
+    // Display all resourse
+    public function showAllPosts()
     {
-        $user = Auth::user();
-        $categories = $user->categories;
-        $all_categories = Category::all();
-        $other_categories = $all_categories->diff($categories);
-        return view('category/show',['categories' => $categories,'other_categories' =>$other_categories]);
+        $user  = Auth::user();
+        $posts = $user->posts;
+        $all_posts = Post::all();
+        $other_posts = $all_posts->diff($posts);
+        return view('post/all',['posts' => $posts,'other_posts' =>$other_posts]);
     }
     /**
      * Show the form for editing the specified resource.
@@ -77,9 +81,12 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
-        return view('category/edit', ['category' => $category]);
+        $post = Post::find($id);
+        $user = Auth::user();
+        $categories = $user->categories;
+        return view('post/edit', ['post' => $post,'categories' => $categories]);
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -89,10 +96,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if(Category::where('id', $id)->update(['title' => $request->input('title')])) {
-            return redirect('/categories');
+
+        if(Post::where('id', $id)->update(['title' => $request->input('title'),'text' => $request->input('text'),
+            'category_id' => $request->input('category_id') ])) {
+            return redirect('/posts');
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -101,7 +111,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        if(Category::where('id',$id)->delete()) 
+        if(Post::where('id',$id)->delete()) 
         {
             return back();
         } 
