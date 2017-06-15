@@ -35,6 +35,5 @@ Route::put('/posts/{id}','PostController@update');
 Route::delete('/posts/{id}','PostController@destroy');
 Route::get('/posts/all','PostController@showAllPosts');
 Route::get('/categories/all','CategoryController@showAllCategories');
-Route::get('/{url_n}', function () {return redirect('/');});
-Route::get('login/{url_n}', function () {return redirect('/');});
-Route::get('register/{url_n}', function () {return redirect('/');});
+Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');

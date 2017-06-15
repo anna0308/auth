@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -28,8 +29,8 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                    <a class="navbar-brand" href="{{ url('/home') }}">
+                        Home
                     </a>
                 </div>
 
@@ -38,7 +39,6 @@
                     <ul class="nav navbar-nav">
                         &nbsp;
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
@@ -46,10 +46,6 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
-                            <li><a href="{{ url('/categories') }}" >My Categories</a></li>
-                            <li><a href="{{ url('/posts') }}" >My Posts</a></li>
-                            <li><a href="{{ url('/categories/all') }}" >All Categories</a></li>
-                            <li><a href="{{ url('/posts/all') }}" >All Posts</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -73,10 +69,35 @@
                 </div>
             </div>
         </nav>
-
+        @if(Auth::user())
+            <div class="nav-side-menu" style="width:200px">
+                <div class="brand" style="margin-left:20px;font-size:22px"><strong>Menu</strong></div>
+                <div class="menu-list">
+                    <ul id="menu-content" >
+                        
+                        <li  data-toggle="collapse" data-target="#products" class="collapsed active">
+                          <a href="#"><i class="fa fa-users fa-lg"></i> Users <span style="color:black;margin-left:10px">{{$count_user}}</span> <span class="arrow"></span></a>
+                        </li>
+                        <li data-toggle="collapse" data-target="#service" class="collapsed">
+                          <a href="#"><i class="fa fa-globe fa-lg"></i> Categories <span style="color:black;margin-left:10px">{{$count_category}}</span><span class="arrow"></span></a>
+                        </li>  
+                        <ul class="sub-menu collapse" id="service">
+                          <li><a href="{{ url('/categories') }}">My Categories</a></li>
+                          <li><a href="{{ url('/categories/all') }}">All Categories</a></li>
+                        </ul>
+                        <li data-toggle="collapse" data-target="#new" class="collapsed">
+                          <a href="#"><i class="fa fa-envelope"></i> Posts<span style="color:black;margin-left:10px">{{$count_post}}</span><span class="arrow"></span></a>
+                        </li>
+                        <ul class="sub-menu collapse" id="new">
+                          <li><a href="{{ url('/posts') }}">My Posts</a></li>
+                          <li><a href="{{ url('/posts/all') }}">All Posts</a></li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        @endif
         @yield('content')
     </div>
-
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

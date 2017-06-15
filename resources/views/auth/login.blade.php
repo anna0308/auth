@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <div class="container">
     <div class="row">
@@ -67,6 +66,8 @@
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
                                 </a>
+                                <a href="redirect"><img class="img" style="width: 200px" src="https://fb-s-a-a.akamaihd.net/h-ak-fbx/v/t39.2365-6/17639236_1785253958471956_282550797298827264_n.png?oh=6d4bcc6ce8ef0405bd98cc86bba37b0f&amp;oe=599CB1EA&amp;__gda__=1507467620_2b3f36feb724150802d113ee2729714a" width="400" alt=""></a>
+
                             </div>
                         </div>
                     </form>

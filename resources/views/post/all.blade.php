@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+		
 		<a href="{{ url('/posts/create')}}" class="btn btn-success">Create Post</a>
 		<div>
  			@foreach($posts as $post)
