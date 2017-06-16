@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+//use Illuminate\Http\UploadedFile;
+use App\Category;
 use App\Post;
 
 class PostController extends Controller
 {
-    public function __construct()
+    public function __construct(Post $post)
     {
+        $this->post = $post;
         $this->middleware('auth');
     }
     /**
@@ -19,9 +22,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $user  = Auth::user();
-        $posts = $user->posts;
-        return view('post/posts',['posts' => $posts]);
+        $posts= $this->post->get(); 
+        return view('post/index', ['posts' => $posts]);
     }
 
     /**
@@ -29,11 +31,18 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
-        $user = Auth::user();
-        $categories = $user->categories; 
-        return view('post/create',['categories' => $categories]);
+        if($category->count()!=0)
+        {
+            $user = Auth::user();
+            $categories = $user->categories; 
+            return view('post/create',['categories' => $categories]);
+        }
+        else
+        {
+             return redirect('/posts')->with('status', 'First crate category.');
+        }
     }
 
     /**
@@ -44,16 +53,47 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-                'title' =>  'required',
-                'text'  =>  'required',
-            ]);
-        Post::create([
+        $inputs = [
             'title'      => $request->title,
             'text'       => $request->text,
-            'category_id'   => $request->category_id,
-        ]);
-        return redirect('/posts')->with('status', 'New Post added successfully.');
+            'category_id'=> $request->category_id,
+            ];
+        $this->validate($request, [
+                'title' =>  'required|max:25',
+                'text'  =>  'required',
+            ]);
+        if ($request->hasFile('image')) 
+        {
+            $this->validate($request, [
+                'image' => 'mimes:jpeg,jpg,png,gif',
+            ]);
+            $image = $request->image;
+            $image_org= $image->getClientOriginalName();
+            $image_name=time().rand().$image_org;
+            $inputs['image'] = $image_name;
+            if($this->post->create($inputs))
+            {
+                $image->move(public_path().'/images/', $image_name);
+                return redirect('/posts')->with('status', 'New Post added successfully.');
+            }
+            else
+            {
+                return redirect('/posts')->with('status', 'Something went wrong.');
+            }
+            
+        }
+        else
+        {
+            if($this->post->create($inputs))
+            {
+                return redirect('/posts')->with('status', 'New Post added successfully.');
+            }
+            else
+            {
+                return redirect('/posts')->with('status', 'Something went wrong.');
+            }
+        }
+        
     }
 
     /**
@@ -62,19 +102,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-    // Display all resourse
-    public function showAllPosts()
-    {
-        $user  = Auth::user();
-        $posts = $user->posts;
-        $all_posts = Post::all();
-        $other_posts = $all_posts->diff($posts);
-        return view('post/all',['posts' => $posts,'other_posts' =>$other_posts]);
-    }
+    // public function show($id)
+    // {
+       
+    // }
     /**
      * Show the form for editing the specified resource.
      *
@@ -83,9 +114,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::find($id);
-        $user = Auth::user();
-        $categories = $user->categories;
+        $post = $this->post->find($id);
+        $categories = Auth::user()->categories;
         return view('post/edit', ['post' => $post,'categories' => $categories]);
     }
 
@@ -98,11 +128,54 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $post = $this->post->where('id',$id)->first();
+        $old_image=$post->image;
+        $inputs = [
+            'title'      => $request->title,
+            'text'       => $request->text,
+            'category_id'=> $request->category_id,
+            ];
+        $this->validate($request, [
+                'title' =>  'required|max:25',
+                'text'  =>  'required',
+            ]);
+        if ($request->hasFile('image')) 
+        {
+            $this->validate($request, [
+                'image' =>  'mimes:jpeg,jpg,png,gif',
+            ]);
+            $image = $request->image;
+            $image_org= $image->getClientOriginalName();
+            $image_name=time().rand().$image_org;
+            $inputs['image'] = $image_name;
+            if($post->update($inputs))
+            {
 
-        if(Post::where('id', $id)->update(['title' => $request->input('title'),'text' => $request->input('text'),
-            'category_id' => $request->input('category_id') ])) {
-            return redirect('/posts');
+                $image->move(public_path().'/images/', $image_name);
+                if(!empty($old_image))
+                {
+                    $file_path=public_path().'/images/'.$old_image;
+                    unlink($file_path);
+                }
+                return redirect('/posts');
+            } 
+            else
+            {
+                return redirect()->back()->with('status', 'Something went wrong!!!');
+            }
         }
+        else
+        {
+           if($post->update($inputs))
+           {
+                return redirect('/posts');
+           } 
+           else
+           {
+               return redirect()->back()->with('status', 'Something went wrong!!!'); 
+           }
+        }
+
     }
 
     /**
@@ -113,9 +186,26 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        if(Post::where('id',$id)->delete()) 
+        if($this->post->where('id',$id)->delete()) 
         {
-            return back();
-        } 
+            return redirect()->back();
+        }
+        else
+        {
+            return redirect()->back()->with('status', 'Something went wrong!!!');
+        }
+    }
+
+    public function showMyPosts()
+    {
+        $posts = Auth::user()->posts;
+        return view('post.my_posts', ['posts' => $posts]);
+    }
+
+    public function getPostsByCategoryId($id, Category $category)
+    {
+        $category=$category->where('id',$id)->first();
+        $spec_posts = $this->post->where('category_id', $id)->get();
+        return view('category/specified',['spec_posts' => $spec_posts,'category' => $category]);
     }
 }

@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Illuminate\Http\Request;
 use App\Category;
 
 class CategoryController extends Controller
 {
-    public function __construct()
+    public function __construct(Category $category)
     {
+        $this->category = $category;
         $this->middleware('auth');
     }
    
@@ -22,9 +23,8 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-        $categories = $user->categories; 
-        return view('category/categories', ['categories' => $categories]);
+        $categories = $this->category->get(); 
+        return view('category/index', ['categories' => $categories]);
     }
 
     /**
@@ -46,13 +46,16 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-                'title' => 'required',
+                'title' => 'required|max:25',
             ]);
-        Category::create([
-            'title'      => $request->title,
-            'parent_id'  => Auth::user()->id,
-        ]);
-        return redirect('/categories')->with('status', 'New Category added successfully.');
+        if($this->category->create(['title' => $request->title,'parent_id' => Auth::user()->id]))
+        {
+            return redirect('/categories')->with('status', 'New Category added successfully.');
+        }
+        else
+        {
+            return redirect('/categories')->with('status', 'Something went wrong.');
+        }
     }
 
     /**
@@ -61,18 +64,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-    public function showAllCategories()
-    {
-        $user = Auth::user();
-        $categories = $user->categories;
-        $all_categories = Category::all();
-        $other_categories = $all_categories->diff($categories);
-        return view('category/show',['categories' => $categories,'other_categories' =>$other_categories]);
-    }
+    // public function show($id)
+    // {
+        
+    // }
     /**
      * Show the form for editing the specified resource.
      *
@@ -81,7 +76,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::find($id);
+        $category = $this->category->find($id);
         return view('category/edit', ['category' => $category]);
     }
     /**
@@ -91,10 +86,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id,Request $request)
     {
-        if(Category::where('id', $id)->update(['title' => $request->input('title')])) {
+        if($this->category->where('id', $id)->update(['title' => $request->input('title')])) 
+        {
             return redirect('/categories');
+        }
+        else
+        {
+            return redirect('/categories')->with('status', 'Something went wrong.');
         }
     }
     /**
@@ -105,9 +105,19 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        if(Category::where('id',$id)->delete()) 
+        if($this->category->where('id',$id)->delete()) 
         {
-            return back();
+            return redirect()->back();
         } 
+        else
+        {
+            return redirect('/categories')->with('status', 'Something went wrong.');
+        }
+    }
+
+    public function showMyCategores()
+    {
+        $categories = $this->category->where('parent_id', Auth::user()->id)->get();
+        return view('category.my_categories', ['categories' => $categories]);
     }
 }

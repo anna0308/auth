@@ -82,22 +82,22 @@
                           <a href="#"><i class="fa fa-globe fa-lg"></i> Categories <span style="color:black;margin-left:10px">{{$count_category}}</span><span class="arrow"></span></a>
                         </li>  
                         <ul class="sub-menu collapse" id="service">
-                          <li><a href="{{ url('/categories') }}">My Categories</a></li>
-                          <li><a href="{{ url('/categories/all') }}">All Categories</a></li>
+                          <li><a href="{{ url('/categories/my_categories') }}">My Categories</a></li>
+                          <li><a href="{{ url('/categories') }}">All Categories</a></li>
                         </ul>
                         <li data-toggle="collapse" data-target="#new" class="collapsed">
                           <a href="#"><i class="fa fa-envelope"></i> Posts<span style="color:black;margin-left:10px">{{$count_post}}</span><span class="arrow"></span></a>
                         </li>
                         <ul class="sub-menu collapse" id="new">
-                          <li><a href="{{ url('/posts') }}">My Posts</a></li>
-                          <li><a href="{{ url('/posts/all') }}">All Posts</a></li>
+                          <li><a href="{{ url('/posts/my_posts') }}">My Posts</a></li>
+                          <li><a href="{{ url('/posts') }}">All Posts</a></li>
                         </ul>
                     </ul>
                 </div>
             </div>
         @endif
-        @yield('content')
     </div>
+     @yield('content')
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

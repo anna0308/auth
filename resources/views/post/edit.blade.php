@@ -15,7 +15,7 @@
                         {{ session('warning') }}
                     </div>
                 @endif
-                <form method="post" action="{{ url('/posts/'.$post->id) }}" accept-charset="UTF-8">
+                <form method="post" action="{{ url('/posts/'.$post->id) }}" accept-charset="UTF-8" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" value="PUT">
                     <div class="form-group ">
@@ -45,6 +45,18 @@
                             </span>
                         @endif
                         <span class="text-danger"></span>
+                        <span class="text-danger"></span>
+                         <span id="fileselector">
+                            <label class="btn btn-default form-control" for="upload-file-selector">
+                                <input id="upload-file-selector" type="file" name="image">
+                                <i class="fa_icon icon-upload-alt margin-correction"></i>
+                            </label>
+                            @if ($errors->has('image'))
+                                <span class="help-block">
+                                    <strong style="color:red;">{{ $errors->first('image') }}</strong>
+                                </span>
+                            @endif
+                        </span>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success">Update</button>

@@ -8,7 +8,7 @@ class Post extends Model
 
 	protected $table = "posts";
 
-    public $fillable = ['title','text','category_id'];
+    public $fillable = ['title','text', 'image', 'category_id'];
 
     /**
      * Get the index name for the model.

@@ -53,7 +53,14 @@ class LoginController extends Controller
         }
         else
         {
-          return redirect('/login')->with('status', 'You need to confirm your account. We have sent you an activation code, please check your email.');
+            if(empty($verif))
+            {
+                return redirect('/login')->with('status', 'You need to registrate then login.');
+            }
+            else
+            {
+                return redirect('/login')->with('status', 'You need to confirm your account. We have sent you an activation code, please check your email.');
+            }
         }
     }
 
