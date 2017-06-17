@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
 	<h2 style="color:blue"><span style="color:black">Category:</span>    {{ $category->title}}</h2>
-  <div class="well">
+  	<div class="well">
   		@if(empty($spec_posts[0]))
   			<h1>There are no posts...</h1>
   		@endif
@@ -17,6 +17,6 @@
 		       </div>
 		     </div>
 	    @endforeach
-  </div>
+ 	 </div>
 </div>
 @endsection

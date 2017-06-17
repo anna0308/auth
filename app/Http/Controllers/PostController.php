@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-//use Illuminate\Http\UploadedFile;
 use App\Category;
 use App\Post;
 
@@ -33,15 +33,14 @@ class PostController extends Controller
      */
     public function create(Category $category)
     {
-        if($category->count()!=0)
-        {
-            $user = Auth::user();
+        $user_id = Auth::user()->id;
+        $category_count = $category->where('parent_id', $user_id)->count();
+        if ($category_count != 0) {
+            $user       = Auth::user();
             $categories = $user->categories; 
             return view('post/create',['categories' => $categories]);
-        }
-        else
-        {
-             return redirect('/posts')->with('status', 'First crate category.');
+        } else {
+            return redirect('/posts')->with('status', 'First crate category.');
         }
     }
 
@@ -57,40 +56,37 @@ class PostController extends Controller
             'title'      => $request->title,
             'text'       => $request->text,
             'category_id'=> $request->category_id,
-            ];
+        ];
         $this->validate($request, [
-                'title' =>  'required|max:25',
-                'text'  =>  'required',
-            ]);
-        if ($request->hasFile('image')) 
-        {
-            $this->validate($request, [
-                'image' => 'mimes:jpeg,jpg,png,gif',
-            ]);
-            $image = $request->image;
-            $image_org= $image->getClientOriginalName();
-            $image_name=time().rand().$image_org;
+
+            'title' =>  'required|max:25',
+            'text'  =>  'required',
+        ]);
+        if ($request->hasFile('image')) {
+
+            $this->validate($request, ['image' => 'mimes:jpeg,jpg,png,gif']);
+            $image           = $request->image;
+            $image_org       = $image->getClientOriginalName();
+            $image_name      = time().rand().$image_org;
             $inputs['image'] = $image_name;
-            if($this->post->create($inputs))
-            {
+            if ($this->post->create($inputs)) {
+
                 $image->move(public_path().'/images/', $image_name);
-                return redirect('/posts')->with('status', 'New Post added successfully.');
-            }
-            else
-            {
-                return redirect('/posts')->with('status', 'Something went wrong.');
+                return redirect()->back()->with('status', 'New Post added successfully.');
+            } else {
+
+                return redirect()->back()->with('status', 'Something went wrong try again.');
             }
             
-        }
-        else
-        {
-            if($this->post->create($inputs))
-            {
-                return redirect('/posts')->with('status', 'New Post added successfully.');
-            }
-            else
-            {
-                return redirect('/posts')->with('status', 'Something went wrong.');
+        } else {
+            if ($this->post->create($inputs)) {
+
+               return redirect()->back()->with('status', 'New Post added successfully.');
+
+            } else {
+
+               return redirect()->back()->with('status', 'Something went wrong try again.');
+
             }
         }
         
@@ -131,16 +127,17 @@ class PostController extends Controller
         $post = $this->post->where('id',$id)->first();
         $old_image=$post->image;
         $inputs = [
-            'title'      => $request->title,
-            'text'       => $request->text,
-            'category_id'=> $request->category_id,
-            ];
+                    'title'      => $request->title,
+                    'text'       => $request->text,
+                    'category_id'=> $request->category_id,
+                  ];
         $this->validate($request, [
+
                 'title' =>  'required|max:25',
                 'text'  =>  'required',
             ]);
-        if ($request->hasFile('image')) 
-        {
+        if ($request->hasFile('image')) {
+
             $this->validate($request, [
                 'image' =>  'mimes:jpeg,jpg,png,gif',
             ]);
@@ -148,30 +145,27 @@ class PostController extends Controller
             $image_org= $image->getClientOriginalName();
             $image_name=time().rand().$image_org;
             $inputs['image'] = $image_name;
-            if($post->update($inputs))
-            {
+            if ($post->update($inputs)) {
 
                 $image->move(public_path().'/images/', $image_name);
-                if(!empty($old_image))
-                {
+                if (!empty($old_image)) {
+
                     $file_path=public_path().'/images/'.$old_image;
                     unlink($file_path);
                 }
                 return redirect('/posts');
-            } 
-            else
-            {
+            } else {
+
                 return redirect()->back()->with('status', 'Something went wrong!!!');
             }
-        }
-        else
-        {
-           if($post->update($inputs))
-           {
+        } else {
+           
+           if ($post->update($inputs)) {
+
                 return redirect('/posts');
-           } 
-           else
-           {
+
+           } else {
+
                return redirect()->back()->with('status', 'Something went wrong!!!'); 
            }
         }
@@ -186,12 +180,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        if($this->post->where('id',$id)->delete()) 
-        {
+        if ($this->post->where('id',$id)->delete()) {
+
             return redirect()->back();
-        }
-        else
-        {
+
+        } else {
+
             return redirect()->back()->with('status', 'Something went wrong!!!');
         }
     }
@@ -204,7 +198,7 @@ class PostController extends Controller
 
     public function getPostsByCategoryId($id, Category $category)
     {
-        $category=$category->where('id',$id)->first();
+        $category=$category->where('id', $id)->first();
         $spec_posts = $this->post->where('category_id', $id)->get();
         return view('category/specified',['spec_posts' => $spec_posts,'category' => $category]);
     }

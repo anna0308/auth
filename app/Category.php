@@ -19,7 +19,4 @@ class Category extends Model
         return $this->belongsTo('App\User', 'parent_id') ;
     }
     
-    // public function posts(){
-    //     return $this->hasMany('App\Post');
-    // }
 }

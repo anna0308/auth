@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        view()->composer('layouts.app', function($view){
+        view()->composer('layouts.app', function($view) {
             $count_user = User::count();
             $count_post = Post::count();
             $count_category = Category::count();

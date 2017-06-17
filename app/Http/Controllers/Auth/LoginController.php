@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request; 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\User;
+use Auth;
 
 
 class LoginController extends Controller
@@ -43,25 +43,21 @@ class LoginController extends Controller
 
     public function postLogin(Request $request)
     {  
-
-        $verif = DB::table('users')->where('email', $request->input('email'))->value('verification');
-        if($verif)
-        {
-            $user_id = DB::table('users')->where('email', $request->input('email'))->value('id');
-            Auth::loginUsingId($user_id);
+        if (Auth::attempt(['email' =>  $request->input('email'), 'password' => $request->input('password'), 'verification' => 1])) {
+             
             return redirect('/home');
+
+        } elseif (Auth::attempt(['email' =>  $request->input('email'), 'password' => $request->input('password')])) {
+
+            Auth::logout();
+            return redirect('/login')->with('status', 'You need to confirm your account. We have sent you an activation code, please check your email.');
+
+        } else {
+
+            return redirect('/login')->with('status', 'Your credentials are not correct.');
+
         }
-        else
-        {
-            if(empty($verif))
-            {
-                return redirect('/login')->with('status', 'You need to registrate then login.');
-            }
-            else
-            {
-                return redirect('/login')->with('status', 'You need to confirm your account. We have sent you an activation code, please check your email.');
-            }
-        }
+        
     }
 
     public function redirectToProvider()
@@ -78,7 +74,6 @@ class LoginController extends Controller
     {
         $user = Socialite::driver('facebook')->user();
 
-        // $user->token;
     }
 
 }

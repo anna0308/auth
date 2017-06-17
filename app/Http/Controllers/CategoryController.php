@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
-use Auth;
 use Illuminate\Http\Request;
 use App\Category;
+use Auth;
 
 class CategoryController extends Controller
 {
@@ -45,16 +45,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-                'title' => 'required|max:25',
-            ]);
-        if($this->category->create(['title' => $request->title,'parent_id' => Auth::user()->id]))
-        {
-            return redirect('/categories')->with('status', 'New Category added successfully.');
-        }
-        else
-        {
-            return redirect('/categories')->with('status', 'Something went wrong.');
+        $this->validate($request, ['title' => 'required|max:25']);
+        if($this->category->create(['title' => $request->title,'parent_id' => Auth::user()->id])) {
+
+            return redirect()->back()->with('status', 'New Category added successfully.');
+
+        } else {
+
+            return redirect()->back()->with('status', 'Something went wrong.');
         }
     }
 
@@ -88,12 +86,12 @@ class CategoryController extends Controller
      */
     public function update($id,Request $request)
     {
-        if($this->category->where('id', $id)->update(['title' => $request->input('title')])) 
-        {
+        if ($this->category->where('id', $id)->update(['title' => $request->input('title')])) {
+
             return redirect('/categories');
-        }
-        else
-        {
+
+        } else {
+
             return redirect('/categories')->with('status', 'Something went wrong.');
         }
     }
@@ -105,12 +103,12 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        if($this->category->where('id',$id)->delete()) 
-        {
+        if ($this->category->where('id',$id)->delete()) {
+
             return redirect()->back();
-        } 
-        else
-        {
+            
+        } else {
+            
             return redirect('/categories')->with('status', 'Something went wrong.');
         }
     }

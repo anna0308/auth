@@ -12,8 +12,8 @@
 		@endif
 		<a href="{{ url('/posts/create')}}" class="btn btn-success">Create Post</a>
 		<div>
- 			@foreach($posts as $post)
-    			<div style="width: 600px;border:2px solid silver;margin:0 auto;overflow:hidden;">
+ 			 @foreach($posts as $post)
+    		<div style="width: 600px;border:2px solid silver;margin:0 auto;overflow:hidden;">
 	    			<div class="media">
 		      			<a class="pull-left" href="#">
 		      				@if(!empty($post->image))
@@ -27,7 +27,7 @@
 		          		<p>{{$post->text}}</p>
 		       			</div>
 		     		</div>
-		     		@if($post->category->parent_id == \Auth::id())
+		     		@if($post->category['parent_id'] ==\Auth::id())
 		    			<a href="{{ url('/posts/'.$post->id.'/edit') }}" class="btn btn-success" style="float:right;">Edit</a>
 		    			<form method="post" action="{{ url('/posts/'.$post->id) }}" accept-charset="UTF-8">
 	                    	{{ csrf_field() }}
@@ -36,7 +36,7 @@
 		    			</form>
 	    			@endif
     			</div>
-  			@endforeach
+  			@endforeach 
 		</div>
 
 @endsection
