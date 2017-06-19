@@ -15,7 +15,8 @@ class Category extends Model
      *
      * @return string
     */
-    public function user() {
+    public function user() 
+    {
         return $this->belongsTo('App\User', 'parent_id') ;
     }
     

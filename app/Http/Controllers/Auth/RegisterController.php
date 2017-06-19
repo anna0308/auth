@@ -74,7 +74,7 @@ class RegisterController extends Controller
 
     public function getRegisterForm()
     {
-        return view('auth.register');
+        return view('auth/register');
     }
 
     public function postRegister(Request $request)
@@ -96,7 +96,7 @@ class RegisterController extends Controller
             $code = User::where('email', $email)->value('code');
             $url = env('APP_URL').'/register/verify/'. $code.'/'. $request->input('email');
 
-            Mail::send('auth.confirm_email', ['url' => $url], function ($message) use ($email)
+            Mail::send('auth/confirm_email', ['url' => $url], function ($message) use ($email)
                 {
                     $message->from('adaanna.1994@mail.ru', 'Petra');
                     $message->to($email);

@@ -15,7 +15,8 @@ class Post extends Model
      *
      * @return string
     */
-    public function category (){
+    public function category ()
+    {
         return $this->belongsTo('App\Category');
     }
 }
