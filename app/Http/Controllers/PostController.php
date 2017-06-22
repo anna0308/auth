@@ -154,7 +154,7 @@ class PostController extends Controller
                     unlink($file_path);
                 }
 
-                return redirect('/post/my_post');
+                return redirect('/posts/my_posts');
             } else {
 
                 return redirect()->back()->with('status', 'Something went wrong!!!');
@@ -163,7 +163,7 @@ class PostController extends Controller
            
            if ($post->update($inputs)) {
 
-                return redirect('/post/my_post');
+                return redirect('/posts/my_posts');
 
            } else {
 

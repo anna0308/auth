@@ -88,11 +88,11 @@ class CategoryController extends Controller
     {
         if ($this->category->where('id', $id)->update(['title' => $request->input('title')])) {
 
-            return redirect('/categories');
+            return redirect('/categories/my_categories');
 
         } else {
 
-            return redirect('/categories')->with('status', 'Something went wrong.');
+            return redirect('/categories/my_categories')->with('status', 'Something went wrong.');
         }
     }
     /**
