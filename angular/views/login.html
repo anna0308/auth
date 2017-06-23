@@ -4,30 +4,32 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
-                {{user}}
-                    <!-- @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
+               
+                    <div class="alert alert-success" ng-if="name">
+                        {{name}} you are registered.
                     </div>
-                    @endif
+                    <div class="alert alert-success" ng-if="errors">
+                        {{errors}}
+                    </div>
+                    <!-- @endif
                     @if (session('warning'))
                         <div class="alert alert-warning">
                             {{ session('warning') }}
                         </div>
-                    @endif -->
+                    @endif --> 
                     <form class="form-horizontal" role="form" >
 
                         <div class="form-group">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input ng-model="inputs.email" id="email" type="email" class="form-control">
+                                <input ng-model="inputs.email" id="email" type="email" class="form-control" required>
 
-                               <!--  @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                               <!--  @if ($errors->has('email')) -->
+                                    <span class="help-block" ng-if="errors.email">
+                                        <strong>{{errors.email[0]}}</strong>
                                     </span>
-                                @endif -->
+                               <!-- @endif -->
                             </div>
                         </div>
 
@@ -37,11 +39,11 @@
                             <div class="col-md-6">
                                 <input ng-model="inputs.password" id="password" type="password" class="form-control">
 
-                                <!-- @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
+                                <!-- @if ($errors->has('password')) -->
+                                    <span class="help-block" ng-if="errors.password">
+                                        <strong>{{errors.password[0]}}</strong>
                                     </span>
-                                @endif -->
+                                <!--@endif -->
                             </div>
                         </div>
 
@@ -60,7 +62,7 @@
                                 <button type="submit" class="btn btn-primary" ng-click="submit(inputs)">
                                     Login
                                 </button>
-
+                                
                                 <!-- <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
                                 </a>

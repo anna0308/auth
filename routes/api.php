@@ -18,3 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('/posts', 'PostController@index');
 Route::post('register', 'RegisterController@postRegister');
+Route::post('login', 'LoginController@postLogin');
+Route::get('/home','HomeController@index');
+Route::get('/categories/my_categories','CategoryController@showMyCategores');

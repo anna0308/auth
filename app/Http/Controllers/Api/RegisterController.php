@@ -17,6 +17,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+    
     public function postRegister(Request $request)
     {
         $this->validate($request, [
@@ -50,8 +51,8 @@ class RegisterController extends Controller
             // } else {
 
             // return redirect('/login')->with('status', 'We sent you an activation code. Check your email.';
-           	Auth::logIn();
            	return response()->json(['name'=> $request->input('name')]);
+
             }
        
     }

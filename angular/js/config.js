@@ -4,7 +4,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   // 
   // Now set up the states     
   $stateProvider
-   .state('login',{
+  .state('login',{
     url: '/',
     templateUrl: 'views/login.html',
     controller: 'loginController'
@@ -14,6 +14,17 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
     templateUrl: 'views/register.html',
     controller: 'registerController'
   }) 
+  .state('home',{
+    url: '/home',
+    templateUrl: 'views/home.html',
+    controller: 'homeController'
+  })
+  .state('my_categories', {
+       url: "categories/my_categories",
+       templateUrl: "views/my_categories.html",
+       controller: "categoryController"
+  })
+
   // .state('posts', {
   //     url: "/posts",
   //     templateUrl: "views/posts.html",
