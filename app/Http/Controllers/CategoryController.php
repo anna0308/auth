@@ -113,7 +113,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function showMyCategores()
+    public function showMyCategories()
     {
         $categories = $this->category->where('parent_id', Auth::user()->id)->get();
         return view('category.my_categories', ['categories' => $categories]);

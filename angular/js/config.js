@@ -19,12 +19,29 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
     templateUrl: 'views/home.html',
     controller: 'homeController'
   })
+  .state('create_cat',{
+    url: '/categories/create',
+    templateUrl: 'views/category/create.html',
+    controller: 'categoryController'
+  })
   .state('my_categories', {
-       url: "categories/my_categories",
-       templateUrl: "views/my_categories.html",
+       url: "/categories/my_categories",
+       templateUrl: "views/category/my_categories.html",
        controller: "categoryController"
   })
-
+  .state('categories', {
+       url: "/categories",
+       templateUrl: "views/category/index.html",
+       controller: "categoryController"
+  })
+  .state("edit_cat", {
+        url: "/categories/:id/edit",
+        params: {
+            id: null
+        },
+        templateUrl : "views/category/edit.html",
+        controller: 'categoryController'
+  })
   // .state('posts', {
   //     url: "/posts",
   //     templateUrl: "views/posts.html",

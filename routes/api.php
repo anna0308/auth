@@ -16,8 +16,17 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/posts', 'PostController@index');
+
 Route::post('register', 'RegisterController@postRegister');
 Route::post('login', 'LoginController@postLogin');
+Route::get('logout', 'LoginController@logout');
 Route::get('/home','HomeController@index');
-Route::get('/categories/my_categories','CategoryController@showMyCategores');
+
+
+Route::post('addCategory', 'CategoryController@store');
+Route::get('/categories/my_categories','CategoryController@showMyCategories');
+Route::get('/categories', 'CategoryController@index');
+Route::delete('deleteCategory/{id}', 'CategoryController@destroy');
+Route::get('/categories/{id}/edit', 'CategoryController@edit');
+// Route::put('updateCategory/{id}', 'CategoryController@update');
+// Route::get('postByCategory/{id}', 'CategoryController@postsByCategory');

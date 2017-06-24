@@ -22,21 +22,22 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function index()
-    // {
-    //     $categories = $this->category->get(); 
-    //     return view('category/index', ['categories' => $categories]);
-    // }
+    public function index()
+    {
+        $categories = $this->category->get(); 
+        return response()->json(['categories' => $categories]);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    // public function create()
-    // {
-    //     return view('category/create');
-    // }
+    public function create()
+    {
+        //return view('category/create');
+        
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -44,18 +45,19 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     $this->validate($request, ['title' => 'required|max:25']);
-    //     if($this->category->create(['title' => $request->title,'parent_id' => Auth::user()->id])) {
+    public function store(Request $request)
+    {
+        $this->validate($request, ['title' => 'required|max:25']);
+        if($this->category->create(['title' => $request->title,'parent_id' => Auth::user()->id])) {
 
-    //         return redirect()->back()->with('status', 'New Category added successfully.');
+            //return redirect()->back()->with('status', 'New Category added successfully.');
+            return response()->json(['status' => 'New Category added successfully.']);
 
-    //     } else {
+        } else {
 
-    //         return redirect()->back()->with('status', 'Something went wrong.');
-    //     }
-    // }
+            return response()->json(['status' => 'Something went wrong.']);
+        }
+    }
 
     /**
      * Display the specified resource.
@@ -73,11 +75,12 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function edit($id)
-    // {
-    //     $category = $this->category->find($id);
-    //     return view('category/edit', ['category' => $category]);
-    // }
+    public function edit($id)
+    {
+        
+        $category = $this->category->find($id);
+        return response()->json(['category' => $category]);
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -102,21 +105,23 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy($id)
-    // {
-    //     if ($this->category->where('id',$id)->delete()) {
-
-    //         return redirect()->back();
-            
-    //     } else {
-            
-    //         return redirect('/categories')->with('status', 'Something went wrong.');
-    //     }
-    // }
-
-    public function showMyCategores()
+    public function destroy($id)
     {
+        if ($this->category->where('id',$id)->delete()) {
+
+            return response()->json(['status' => 'Deleted successfully.']);
+            
+        } else {
+            
+            return response()->json(['status' => 'Something went wrong.']);
+        }
+    }
+
+    public function showMyCategories()
+    {
+        
         $categories = $this->category->where('parent_id', Auth::user()->id)->get();
-        return view('category.my_categories', ['categories' => $categories]);
+        //return view('category.my_categories', ['categories' => $categories]);
+        return response()->json(['categories' => $categories]);
     }
 }

@@ -1,0 +1,12 @@
+<ng-include src="'views/home.html'"></ng-include>
+<div style='width: 600px;margin:0 auto;'>
+ 			<form accept-charset="UTF-8">
+                    <div class="form-group ">
+                        <label for="Title:">Category-title:</label>
+                        <input class="form-control" value="{{category.title}}" name="title" type="text">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success" ng-click="update(categories)">Update</button>
+                    </div>
+            </form>
+		</div>

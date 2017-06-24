@@ -1,0 +1,30 @@
+			<ng-include src="'views/home.html'"></ng-include>
+			<a ui-sref="create_cat" class="btn btn-success">Create Category</a>
+			 <div class="alert alert-success" ng-if="status">
+                    {{status}}
+                </div>
+			<div ng-repeat="category in categories">
+		 		<!-- @foreach($categories as $category) -->
+		 			
+		    		<div  id="{{category.id}}" style="width:800px;border:2px solid silver;overflow:hidden;margin:0 auto; ">
+		    			<a href="#" style="text-decoration: none; color:black">
+		    				<div style="width: 500px;float:left;padding-left:10px; ">
+		    					Category-title:
+			    				<span style="color:green;" >
+			    				{{ category.title }}
+			    				</span>
+		    				</div>
+		    			</a>
+		    			 <div style="width:200px;float:right;">
+			    			<a href="" class="btn btn-success" style="float:right;" ng-click="edit(category.id)">Edit</a>
+			    			
+			    			<form >
+			    				<button type="submit" class="btn btn-danger" style="float:right;margin-right:10px" ng-click="delete(category.id)">Delete</button>
+			    			</form>
+	    				</div> <!-- a2{{ url('/categories/'.$category->id.'/edit') }}f{{ url('/categories/'.$category->id) }} --> 
+	    			</div>
+		  			<!-- @endforeach -->
+			</div>
+			<!-- <a href="" class="col-sm-8" ui-sref="postByCategory({id: category.id})">{{category.name}}</a>
+			<a href="" ng-click="edit(category.id)" class="btn btn-primary col-sm-2">Edit</a>
+			<a href="" ng-click="delete(category.id)" type="button" class="btn btn-danger delete-category">Delete</a> -->
