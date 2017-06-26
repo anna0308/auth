@@ -104,7 +104,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         if ($this->category->where('id',$id)->delete()) {
-
+            
+            $this->post->where('category_id',$id)->delete();
             return redirect()->back();
             
         } else {

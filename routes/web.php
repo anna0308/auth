@@ -21,6 +21,6 @@ Route::get('/redirect', 'SocialAuthController@redirect');
 Route::get('/callback', 'SocialAuthController@callback');
 Route::get('/categories/my_categories','CategoryController@showMyCategories');
 Route::get('/categories/{id}/posts','PostController@getPostsByCategoryId');
-Route::resource('categories', 'CategoryController');
+Route::resource('categories', 'CategoryController',['except' => ['show']]);
 Route::get('/posts/my_posts','PostController@showMyPosts');
-Route::resource('/posts','PostController');
+Route::resource('/posts','PostController',['except' => ['show']]);

@@ -4,7 +4,7 @@
 			<div>
 		 		@foreach($categories as $category)
 		    		<div style="width:800px;border:2px solid silver;overflow:hidden;margin:0 auto; ">
-		    			<a href="{{ url('/categories/'.$category->id.'/show') }}" style="text-decoration: none; color:black">
+		    			<a href="{{ url('/categories/'.$category->id.'/posts') }}" style="text-decoration: none; color:black">
 		    				<div style="width: 500px;float:left;padding-left:10px; ">
 		    					Category-title:
 			    				<span style="color:green;" >

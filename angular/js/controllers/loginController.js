@@ -24,9 +24,8 @@ angular.module('myApp').controller('loginController',
 	            }, 
 	            function(response) {
 
-	                $scope.errors = response.data;
-	               
-	       
+	                $scope.status = response.data;
+	             
 	           	}
 	        ); 
 	    }

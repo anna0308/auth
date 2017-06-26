@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Post;
 use App\Category;
 use Auth;
 
 class CategoryController extends Controller
 {
-    public function __construct(Category $category)
+    public function __construct(Category $category, Post $post)
     {
+        $this->post = $post;
         $this->category = $category;
         $this->middleware('auth');
     }
@@ -88,17 +90,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update($id,Request $request)
-    // {
-    //     if ($this->category->where('id', $id)->update(['title' => $request->input('title')])) {
+    public function update($id,Request $request)
+    {
+        if ($this->category->where('id', $id)->update(['title' => $request->input('title')])) {
 
-    //         return redirect('/categories/my_categories');
+            return response()->json(['status' => 'Updated successfully.']);
 
-    //     } else {
+        } else {
 
-    //         return redirect('/categories/my_categories')->with('status', 'Something went wrong.');
-    //     }
-    // }
+            return response()->json(['status' => 'Something went wrong.']);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -107,8 +109,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        if ($this->category->where('id',$id)->delete()) {
 
+        if ($this->category->where('id',$id)->delete()) {
+            
+            $this->post->where('category_id',$id)->delete();
             return response()->json(['status' => 'Deleted successfully.']);
             
         } else {

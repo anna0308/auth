@@ -42,33 +42,41 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
         templateUrl : "views/category/edit.html",
         controller: 'categoryController'
   })
-  // .state('posts', {
-  //     url: "/posts",
-  //     templateUrl: "views/posts.html",
-  //     controller: "postController"
-  // })
-  // .state('my_posts', {
-  //     url: "/my_posts",
-  //     templateUrl: "views/my_posts.html",
-  //     controller: "postController"
-  // })
-  // .state('posts_create', {
-  //     url: "/posts/create",
-  //     templateUrl: "views/create.html",
-  //   controller: "postController"
-  // })
-  // .state('post_edit', {
-  //     url: "/posts/:id/edit",
-  //     templateUrl: "views/edit.html",
-  //   controller: "postController"
-  // })
-  // .state('show', {
-  //     url: "/posts/:id",
-  //     templateUrl: "views/show.html",
-  //     controller: "postController"
-  // })
- 
-  
-
-    $urlRouterProvider.otherwise("/");
+  .state("update", {
+        url: "/categories/:id",
+        templateUrl : "views/category/edit.html",
+        controller: 'categoryController'
+  })
+  .state('posts', {
+      url: "/posts",
+      templateUrl: "views/post/index.html",
+      controller: "postController"
+  })
+  .state('my_posts', {
+      url: "/posts/my_posts",
+      templateUrl: "views/post/my_posts.html",
+      controller: "postController"
+  })
+  .state('create_post', {
+      url: "/posts/create",
+      templateUrl: "views/post/create.html",
+    controller: "postController"
+  })
+  .state("edit_post", {
+        url: "/posts/:id/edit",
+        params: {
+            id: null
+        },
+        templateUrl : "views/post/edit.html",
+        controller: 'postController'
+  })
+  .state("spec_posts", {
+        url: "/categories/:id/posts",
+        params: {
+            id: null
+        },
+        templateUrl : "views/post/specified.html",
+        controller: 'postController'
+  })
+  $urlRouterProvider.otherwise("/");
 });

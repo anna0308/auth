@@ -19,7 +19,6 @@ angular.module('myApp').controller('categoryController',
             $http.get('/api/categories').then(function(response){
 
                 $scope.categories = response.data.categories;
-                console.log(response.data.categories);
 
             });
         }
@@ -70,9 +69,9 @@ angular.module('myApp').controller('categoryController',
         }
         $scope.update = function(inputs){
             $scope.inputs = inputs;
-            console.log(inputs);
-        //     $http.put('/api/updateCategory/' + $scope.inputs.id, $scope.inputs).then(function(response){
-        //         $scope.message = response.data.message;
-        // }); 
-    }
+            $http.put('/api/categories/' + $scope.inputs.id, $scope.inputs).then(function(response){
+                $scope.status = response.data.status;
+                console.log($scope.status);
+            }); 
+        }
     }]);
