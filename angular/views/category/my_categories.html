@@ -7,7 +7,7 @@
 		 		<!-- @foreach($categories as $category) -->
 		 			
 		    		<div  id="{{category.id}}" style="width:800px;border:2px solid silver;overflow:hidden;margin:0 auto; ">
-		    			<a href="#" style="text-decoration: none; color:black">
+		    			<a style="text-decoration: none; color:black" ng-click="spec(category.id)">
 		    				<div style="width: 500px;float:left;padding-left:10px; ">
 		    					Category-title:
 			    				<span style="color:green;" >
@@ -21,7 +21,7 @@
 			    			<form >
 			    				<button type="submit" class="btn btn-danger" style="float:right;margin-right:10px" ng-click="delete(category.id)">Delete</button>
 			    			</form>
-	    				</div> <!-- a2{{ url('/categories/'.$category->id.'/edit') }}f{{ url('/categories/'.$category->id) }} --> 
+	    				</div> 
 	    			</div>
 		  			<!-- @endforeach -->
 			</div>

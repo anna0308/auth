@@ -5,11 +5,11 @@
 			 <div class="alert alert-success" ng-if="status">
                     {{status}}
                 </div>
-			<div ng-controller="postController" ng-repeat="category in categories">
+			<div  ng-repeat="category in categories">
 		 		<!-- @foreach($categories as $category) -->
 		 			
 		    		<div  id="{{category.id}}" style="width:800px;border:2px solid silver;overflow:hidden;margin:0 auto; ">
-		    			<a href=""  style="text-decoration: none; color:black" ng-click="spec(category.id)">
+		    			<a style="text-decoration: none; color:black"  ng-click="spec(category.id)">
 		    				<div style="width: 500px;float:left;padding-left:10px; ">
 		    					Category-title:
 			    				<span style="color:green;" >

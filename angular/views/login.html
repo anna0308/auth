@@ -8,22 +8,13 @@
                     <div class="alert alert-success" ng-if="name">
                         {{name}} you are registered.
                     </div>
-                    <div class="alert alert-success" ng-if="errors">
-                        {{errors}}
-                    </div>
-                    <!-- @endif
-                    @if (session('warning'))
-                        <div class="alert alert-warning">
-                            {{ session('warning') }}
-                        </div>
-                    @endif --> 
                     <form class="form-horizontal" role="form" >
 
                         <div class="form-group">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input ng-model="inputs.email" id="email" type="email" class="form-control" required>
+                                <input ng-model="inputs.email" id="email" type="email" class="form-control" required autofocus>
 
                                <!--  @if ($errors->has('email')) -->
                                     <span class="help-block" ng-if="errors.email">
@@ -37,7 +28,7 @@
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
-                                <input ng-model="inputs.password" id="password" type="password" class="form-control">
+                                <input ng-model="inputs.password" id="password" type="password" class="form-control" required autofocus>
 
                                 <!-- @if ($errors->has('password')) -->
                                     <span class="help-block" ng-if="errors.password">

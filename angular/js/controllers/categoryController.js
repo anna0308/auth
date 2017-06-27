@@ -4,6 +4,9 @@ angular.module('myApp').controller('categoryController',
         $rootScope.user = localStorage['user'];
         $rootScope.id = localStorage['id'];
         $rootScope.loggedIn = localStorage['loggedIn'];
+        $rootScope.count_user=localStorage['count_user'];
+        $rootScope.count_post=localStorage['count_post'];
+        $rootScope.count_category=localStorage['count_category'];
 
     	if($state.current.name == "my_categories") {
 
@@ -12,17 +15,14 @@ angular.module('myApp').controller('categoryController',
     			function(response) {
     			$scope.categories = response.data.categories;
     		})
-    	}
-
-        else if($state.current.name == 'categories') {
+    	} else if($state.current.name == 'categories') {
             
             $http.get('/api/categories').then(function(response){
 
                 $scope.categories = response.data.categories;
 
             });
-        }
-        else if ($state.current.name == 'edit_cat') {
+        } else if ($state.current.name == 'edit_cat') {
 
             var id = $stateParams.id;
 
@@ -30,20 +30,23 @@ angular.module('myApp').controller('categoryController',
                 $scope.category = response.data.category;
 
             });
+        } else if($state.current.name == 'spec_posts') {
+
+            var id = $stateParams.id;
+
+            $http.get('/api/categories/' +id+ '/posts').then(function(response){
+
+                $scope.spec_posts = response.data.spec_posts;
+                $scope.category = response.data.category;
+                
+            });
         }
-        // else if ($state.current.name == 'postByCategory') {
-        //     var id = $state.params.id;
-        //     console.log(id);
-        //     $http.get('/api/postByCategory/' + id).then(function(response){
-        //     $scope.posts = response.data.posts;
-        //     });
-        // }
-       
+
         $scope.addCategory = function(inputs){
             
             $scope.inputs = inputs;
             $http.post('/api/addCategory',$scope.inputs).then(function(response){
-
+                
                 $scope.status = response.data.status;
                 document.getElementById('cat').value="";
             },
@@ -52,21 +55,25 @@ angular.module('myApp').controller('categoryController',
                 $state.go('create_cat');
             });
         }
+
         $scope.delete = function(inputs){
 
             $scope.inputs = inputs;
             $http.delete('/api/deleteCategory/' + $scope.inputs).then(function(response){
-
+                 
                 document.getElementById($scope.inputs).remove();
                 $scope.status = response.data.status;
                 
             }); 
             
         }
+
         $scope.edit = function(inputs){
+
             $scope.inputs = inputs;
             $state.go('edit_cat', {id: $scope.inputs});
         }
+
         $scope.update = function(inputs){
             $scope.inputs = inputs;
             $http.put('/api/categories/' + $scope.inputs.id, $scope.inputs).then(function(response){
@@ -74,4 +81,12 @@ angular.module('myApp').controller('categoryController',
                 console.log($scope.status);
             }); 
         }
-    }]);
+
+        $scope.spec = function(inputs){
+
+            $scope.inputs = inputs;
+            $state.go('spec_posts', {id: $scope.inputs});
+
+        }
+
+}]);

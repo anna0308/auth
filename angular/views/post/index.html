@@ -17,13 +17,13 @@
  			<!--  @foreach($posts as $post) -->
     		<div style="width: 600px;border:2px solid silver;margin:0 auto;overflow:hidden;" ng-repeat="user_post in user_posts">
 	    			<div class="media">
-		      			<!-- <a class="pull-left" href="#">
-		      				@if(!empty($post->image))
-		    					<img class="media-object" style="width:200px" src="{{url('/images/'.$post->image) }}">
-		    				@else
-		    				<img class="media-object" style="width:200px" src="{{url('/images/logo.jpg') }}">
-		 					@endif
-		  				</a> -->
+		      			<a class="pull-left" href="#">
+		      				<!-- @if(!empty($post->image)) -->
+		    					<img ng-show="user_post.image == null" class="media-object" style="width:200px" src="../images/logo.jpg">
+		    				<!-- @else -->
+		    				<img ng-show="user_post.image" class="media-object" style="width:200px" src="../images/{{user_post.image}}">
+		 					<!-- @endif -->
+		  				</a>
 		  				<div class="media-body">
 		    			<h4 class="media-heading" style="color:green"><span style="color:black">Title:</span>  {{user_post.title}}</h4>
 		          		<p>{{user_post.text}}</p>
@@ -39,13 +39,13 @@
     			</div>
     			<div style="width: 600px;border:2px solid silver;margin:0 auto;overflow:hidden;" ng-repeat="other_post in other_posts">
 	    			<div class="media">
-		      			<!-- <a class="pull-left" href="#">
-		      				@if(!empty($post->image))
-		    					<img class="media-object" style="width:200px" src="{{url('/images/'.$post->image) }}">
-		    				@else
-		    				<img class="media-object" style="width:200px" src="{{url('/images/logo.jpg') }}">
-		 					@endif
-		  				</a> -->
+	    				<a class="pull-left" href="#">
+		      			<!-- @if(!empty($post->image)) -->
+		    				<img ng-show="other_post.image == null" class="media-object" style="width:200px" src="../images/logo.jpg">
+		    				<!-- @else -->
+		    				<img ng-show="other_post.image" class="media-object" style="width:200px" src="../images/{{other_post.image}}">
+		 					<!-- @endif -->
+		 				</a>
 		  				<div class="media-body">
 		    			<h4 class="media-heading" style="color:green"><span style="color:black">Title:</span>  {{other_post.title}}</h4>
 		          		<p>{{other_post.text}}</p>

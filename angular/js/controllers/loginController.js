@@ -1,9 +1,10 @@
 angular.module('myApp').controller('loginController',
     ['$scope', '$http', '$state','$location', '$rootScope', function($scope, $http, $state, $location, $rootScope) {
-	
-		$scope.inputs = {};
-	    $rootScope.user = '';
-	    $rootScope.loggedIn = false;
+		// localStorage.clear();
+    	$scope.inputs = {};
+    	$rootScope.user = '';
+    	$rootScope.loggedIn = false;
+		
 
 	    $scope.submit = function(inputs) {
 	    
@@ -15,7 +16,6 @@ angular.module('myApp').controller('loginController',
 	               	localStorage.setItem('user',response.data.user.name);
 	                $rootScope.user = localStorage['user'];
 	                $rootScope.id = localStorage['id'];
-	             
 	                localStorage.setItem('loggedIn',true);
 	                $rootScope.loggedIn = localStorage['loggedIn'];
 			            
@@ -24,7 +24,7 @@ angular.module('myApp').controller('loginController',
 	            }, 
 	            function(response) {
 
-	                $scope.status = response.data;
+	                $scope.status = response.data.status;
 	             
 	           	}
 	        ); 

@@ -10,7 +10,7 @@
                             <label for="name" class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
-                                <input ng-model="inputs.name"  id="name" type="text" class="form-control">
+                                <input ng-model="inputs.name"  id="name" type="text" class="form-control" required autofocus>
 
                                 <!-- @if ($errors->has('name'))-->
                                     <span class="help-block" ng-if="errors.name">
@@ -24,7 +24,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input ng-model="inputs.email" id="email" type="email" class="form-control">
+                                <input ng-model="inputs.email" id="email" type="email" class="form-control" required autofocus>
 
                                 <!-- @if ($errors->has('email')) -->
                                     <span class="help-block" ng-if="errors.email">
@@ -38,7 +38,7 @@
                             <label for="password" class="col-md-4 control-label">Password</label>
 
                             <div class="col-md-6">
-                                <input ng-model="inputs.password" id="password" type="password" class="form-control">
+                                <input ng-model="inputs.password" id="password" type="password" class="form-control" required autofocus>
 
                                 <!-- @if ($errors->has('password'))-->
                                     <span class="help-block" ng-if='errors.password'>

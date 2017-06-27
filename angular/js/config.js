@@ -76,7 +76,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
             id: null
         },
         templateUrl : "views/post/specified.html",
-        controller: 'postController'
+        controller: 'categoryController'
   })
   $urlRouterProvider.otherwise("/");
 });

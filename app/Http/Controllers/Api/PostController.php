@@ -15,7 +15,7 @@ class PostController extends Controller
 	public function __construct(Post $post)
     {
         $this->post = $post;
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -71,23 +71,24 @@ class PostController extends Controller
             'title' =>  'required|max:25',
             'text'  =>  'required',
         ]);
-        // if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
 
-        //     $this->validate($request, ['image' => 'mimes:jpeg,jpg,png,gif']);
-        //     $image           = $request->image;
-        //     $image_org       = $image->getClientOriginalName();
-        //     $image_name      = time().rand().$image_org;
-        //     $inputs['image'] = $image_name;
-        //     if ($this->post->create($inputs)) {
+            $this->validate($request, ['image' => 'mimes:jpeg,jpg,png,gif']);
+            $image           = $request->image;
+            $image_org       = $image->getClientOriginalName();
+            $image_name      = time().rand().$image_org;
+            $inputs['image'] = $image_name;
+            if ($this->post->create($inputs)) {
 
-        //         $image->move(public_path().'/images/', $image_name);
-        //         return redirect()->back()->with('status', 'New Post added successfully.');
-        //     } else {
+                $image->move(public_path().'/images/', $image_name);
+                return response()->json(['status' => 'New Post added successfully.']);
+                
+            } else {
 
-        //         return redirect()->back()->with('status', 'Something went wrong try again.');
-        //     }
+                return redirect()->back()->with('status', 'Something went wrong try again.');
+            }
             
-        // } else {
+        } else {
             if ($this->post->create($inputs)) {
 
                return response()->json(['status' => 'New Post added successfully.']);
@@ -97,7 +98,7 @@ class PostController extends Controller
                return response()->json(['status' => 'Something went wrong try again.']);
 
             }
-        //}
+        }
         
     }
 
@@ -145,30 +146,30 @@ class PostController extends Controller
                 'title' =>  'required|max:25',
                 'text'  =>  'required',
             ]);
-        // if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
 
-        //     $this->validate($request, [
-        //         'image' =>  'mimes:jpeg,jpg,png,gif',
-        //     ]);
-        //     $image = $request->image;
-        //     $image_org= $image->getClientOriginalName();
-        //     $image_name=time().rand().$image_org;
-        //     $inputs['image'] = $image_name;
-        //     if ($post->update($inputs)) {
+            $this->validate($request, [
+                'image' =>  'mimes:jpeg,jpg,png,gif',
+            ]);
+            $image = $request->image;
+            $image_org= $image->getClientOriginalName();
+            $image_name=time().rand().$image_org;
+            $inputs['image'] = $image_name;
+            if ($post->update($inputs)) {
 
-        //         $image->move(public_path().'/images/', $image_name);
-        //         if (!empty($old_image)) {
+                $image->move(public_path().'/images/', $image_name);
+                if (!empty($old_image)) {
 
-        //             $file_path=public_path().'/images/'.$old_image;
-        //             unlink($file_path);
-        //         }
+                    $file_path=public_path().'/images/'.$old_image;
+                    unlink($file_path);
+                }
 
-        //         return redirect('/posts/my_posts');
-        //     } else {
+                 return response()->json(['status' => 'Updated successfully.']);
+            } else {
 
-        //         return redirect()->back()->with('status', 'Something went wrong!!!');
-        //     }
-        // } else {
+               return response()->json(['status' => 'Something went wrong!!!']);
+            }
+        } else {
            
            if ($post->update($inputs)) {
 
@@ -178,7 +179,7 @@ class PostController extends Controller
 
                return response()->json(['status' => 'Something went wrong!!!']);
            }
-        //}
+        }
 
     }
 
