@@ -1,0 +1,48 @@
+<head>
+    <title>Vue JS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
+  <body >
+       <div id="app">
+        <nav class="navbar navbar-default navbar-static-top" id='navbar'>
+            <div class="container">
+                <div class="navbar-header">
+
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Branding Image -->
+                    <a class="navbar-brand" >
+                        VueBLOG
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" >
+                    
+                    <ul class="nav navbar-nav">
+                        &nbsp;
+                    </ul>
+
+                    
+                    <ul class="nav navbar-nav navbar-right" >
+                        <li ><router-link to="/login">Login</router-link></li>
+                        <li ><router-link to="/register" >Register</router-link></li>
+                       <!--  <li ng-show="loggedIn" > 
+                            <a ng-click="logout()" ui-sref="login" >Logout</a>  
+                        </li> -->
+                    </ul>
+                </div>
+
+            </div>
+        </nav> 
+        <router-view></router-view>
+     </div>
+    <script src='/js/app.js' type="text/javascript"></script>
+    <!-- <script src='js/log_reg.js' type="text/javascript"></script> -->
+</body>
