@@ -9,6 +9,10 @@ require('./bootstrap');
 window.Vue = require('vue');
 import login from './components/login';
 import router from './route'
+import VeeValidate from 'vee-validate';
+
+Vue.use(VeeValidate);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -23,5 +27,5 @@ const app = new Vue({
     components:{
     	login:login
     },
-    router
+    router,
 });

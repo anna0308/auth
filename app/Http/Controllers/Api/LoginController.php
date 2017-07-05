@@ -22,7 +22,7 @@ class LoginController extends Controller
 
         } else {
 
-            return response()->json(['error'=>'Your credentials are not correct.']);
+            return response()->json(['status'=>'Your credentials are not correct.']);
 
         }
         
