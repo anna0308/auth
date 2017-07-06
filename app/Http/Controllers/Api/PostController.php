@@ -24,7 +24,6 @@ class PostController extends Controller
      */
     public function index(Post $post)
 	{
-		
 		$posts = $post->get();
 		$user_posts = Auth::user()->posts;
 		$other_posts = $posts->diff($user_posts);
@@ -41,14 +40,10 @@ class PostController extends Controller
         $user_id = Auth::user()->id;
         $category_count = $category->where('parent_id', $user_id)->count();
         if ($category_count != 0) {
-
             $user       = Auth::user();
             $categories = $user->categories; 
-
             return response()->json(['categories' => $categories]);
-
         } else {
-            
             return response()->json(['status' => 'First crate category.']);
         }
     }
@@ -72,31 +67,23 @@ class PostController extends Controller
             'text'  =>  'required',
         ]);
         if ($request->hasFile('image')) {
-
             $this->validate($request, ['image' => 'mimes:jpeg,jpg,png,gif']);
             $image           = $request->image;
             $image_org       = $image->getClientOriginalName();
             $image_name      = time().rand().$image_org;
             $inputs['image'] = $image_name;
             if ($this->post->create($inputs)) {
-
                 $image->move(public_path().'/images/', $image_name);
-                return response()->json(['status' => 'New Post added successfully.']);
-                
+                return response()->json(['status' => 'New Post added successfully.']); 
             } else {
-
                 return redirect()->back()->with('status', 'Something went wrong try again.');
             }
             
         } else {
             if ($this->post->create($inputs)) {
-
                return response()->json(['status' => 'New Post added successfully.']);
-
             } else {
-
                return response()->json(['status' => 'Something went wrong try again.']);
-
             }
         }
         
@@ -147,7 +134,6 @@ class PostController extends Controller
                 'text'  =>  'required',
             ]);
         if ($request->hasFile('image')) {
-
             $this->validate($request, [
                 'image' =>  'mimes:jpeg,jpg,png,gif',
             ]);
@@ -156,27 +142,19 @@ class PostController extends Controller
             $image_name=time().rand().$image_org;
             $inputs['image'] = $image_name;
             if ($post->update($inputs)) {
-
                 $image->move(public_path().'/images/', $image_name);
                 if (!empty($old_image)) {
-
                     $file_path=public_path().'/images/'.$old_image;
                     unlink($file_path);
                 }
-
                  return response()->json(['status' => 'Updated successfully.']);
             } else {
-
                return response()->json(['status' => 'Something went wrong!!!']);
             }
         } else {
-           
            if ($post->update($inputs)) {
-
                 return response()->json(['status' => 'Updated successfully.']);
-
            } else {
-
                return response()->json(['status' => 'Something went wrong!!!']);
            }
         }
@@ -192,18 +170,14 @@ class PostController extends Controller
     public function destroy($id)
     {
         if ($this->post->where('id',$id)->delete()) {
-
             return response()->json(['status' => 'Deleted successfully.']);
-
         } else {
-
             return response()->json(['status' => 'Something went wrong!!!']);
         }
     }
 
     public function showMyPosts()
     {
-
         $posts = Auth::user()->posts;
         return response()->json(['posts' => $posts]);
     }

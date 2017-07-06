@@ -28,9 +28,7 @@ class RegisterController extends Controller
             'verification' => 1
         ];
         if (User::create($response)) {
-
            	return response()->json(['name'=> $request->input('name')]);
-
         } 
     }
 };

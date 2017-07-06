@@ -15,14 +15,10 @@ class LoginController extends Controller
     {  
     	
         if (Auth::attempt(['email' =>  $request->input('email'), 'password' => $request->input('password'), 'verification' => 1])) {
-             
             $user=Auth::user();
             return response()->json(['user'=> $user]);
-
         } else {
-
             return response()->json(['error'=>'Your credentials are not correct.']);
-
         }
         
     }

@@ -51,14 +51,9 @@ class CategoryController extends Controller
     {
         $this->validate($request, ['title' => 'required|max:25']);
         if($this->category->create(['title' => $request->title,'parent_id' => Auth::user()->id])) {
-
             //return redirect()->back()->with('status', 'New Category added successfully.');
             return response()->json(['status' => 'New Category added successfully.']);
-
-        } else {
-
-            return response()->json(['status' => 'Something went wrong.']);
-        }
+        } 
     }
 
     /**
@@ -79,7 +74,6 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        
         $category = $this->category->find($id);
         return response()->json(['category' => $category]);
     }
@@ -93,11 +87,8 @@ class CategoryController extends Controller
     public function update($id,Request $request)
     {
         if ($this->category->where('id', $id)->update(['title' => $request->input('title')])) {
-
             return response()->json(['status' => 'Updated successfully.']);
-
         } else {
-
             return response()->json(['status' => 'Something went wrong.']);
         }
     }
@@ -111,19 +102,15 @@ class CategoryController extends Controller
     {
 
         if ($this->category->where('id',$id)->delete()) {
-            
             $this->post->where('category_id',$id)->delete();
             return response()->json(['status' => 'Deleted successfully.']);
-            
         } else {
-            
             return response()->json(['status' => 'Something went wrong.']);
         }
     }
 
     public function showMyCategories()
     {
-        
         $categories = $this->category->where('parent_id', Auth::user()->id)->get();
         //return view('category.my_categories', ['categories' => $categories]);
         return response()->json(['categories' => $categories]);

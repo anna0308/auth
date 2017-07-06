@@ -4,8 +4,6 @@ angular.module('myApp').controller('loginController',
     	$scope.inputs = {};
     	$rootScope.user = '';
     	$rootScope.loggedIn = false;
-		
-
 	    $scope.submit = function(inputs) {
 	    
 	        $http.post('/api/login', $scope.inputs)
