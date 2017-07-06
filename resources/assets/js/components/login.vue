@@ -88,9 +88,8 @@
                                 (response) =>{
                               
                                     if(response.data.user) {
-
-                                        sessionStorage.setItem('user', response.data.user.name);
-                                        this.user= sessionStorage.getItem('user');
+                                        sessionStorage.setItem('user_id', response.data.user.id);
+                                        this.user= sessionStorage.getItem('user_id');
                                         window.location='http://laravel.dev/vue/#/home';
 
                                     }  else {

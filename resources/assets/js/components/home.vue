@@ -1,29 +1,31 @@
 <template>
 			
-			<div class="nav-side-menu" style="width:200px">
+			<div class="nav-side-menu" style="width:200px" id="home">
                 <div class="brand" style="margin-left:20px;font-size:22px"><strong>Menu</strong></div>
                 <div class="menu-list">
                     <ul id="menu-content" >
                         
                         <li  data-toggle="collapse" data-target="#products" class="collapsed active">
-                          <a href=""><i class="fa fa-users fa-lg"></i> Users <span style="color:black;margin-left:10px"></span> <span class="arrow">{{count_user}}</span></a>
+                           <router-link to=""><i class="fa fa-users fa-lg"></i> Users <span style="color:black;margin-left:10px"></span> <span class="arrow">{{count_user}}</span> </router-link>
                         </li>
                         <li data-toggle="collapse" data-target="#service" class="collapsed">
-                          <a href=""><i class="fa fa-globe fa-lg"></i> Categories <span style="color:black;margin-left:10px"></span><span class="arrow">{{count_category}}</span></a>
+                          <router-link to=""><i class="fa fa-globe fa-lg"></i> Categories <span style="color:black;margin-left:10px"></span><span class="arrow">{{count_category}}</span> </router-link>
                         </li>  
                         <ul class="sub-menu collapse" id="service">
-                          <!-- <li><a ui-sref="my_categories">My Categories</a></li>
-                          <li><a ui-sref="categories">All Categories</a></li> -->
+                          <li><router-link to="/categories/my_categories">My Categories</router-link></li>
+                          <li><router-link to="/categories">All Categories</router-link></li> 
                         </ul>
-                        <li data-toggle="collapse" data-target="#new" class="collapsed">
-                          <a href=""><i class="fa fa-envelope"></i> Posts<span style="color:black;margin-left:10px"></span><span class="arrow">{{count_post}}</span></a>
-                        </li>
+                        <!-- <li data-toggle="collapse" data-target="#new" class="collapsed">
+                           <router-link to=""><i class="fa fa-envelope"></i> Posts<span style="color:black;margin-left:10px"></span><span class="arrow">{{count_post}}</span> </router-link >
+                        </li> -->
                         <ul class="sub-menu collapse" id="new">
                          <!--  <li><a ui-sref="my_posts">My Posts</a></li>
                           <li><a ui-sref="posts">All Posts</a></li> -->
                         </ul>
                     </ul>
                 </div>
+                <router-link to="/categories/create" class="btn btn-success">Create Category</router-link>
+                <router-link to="" class="btn btn-success">Create Post</router-link>
             </div>
 </template>
 <script>
