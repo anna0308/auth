@@ -1,5 +1,5 @@
 <template>
-		<div>
+	<div>
 			<router-link to="/categories/create" class="btn btn-success">Create Category</router-link>
 			 <div class="alert alert-success" v-if="status">
                     {{status}}
@@ -15,8 +15,8 @@
 		    				</div>
 		    			<!-- </router-link> -->
 		    			 <div style="width:200px;float:right;">
-			    			<router-link to="" class="btn btn-success" style="float:right;" v-if="user == category.parent_id" >Edit</router-link>
-			    			<button class="btn btn-danger" style="float:right;margin-right:10px" v-if="user == category.parent_id"  v-on:click="del(category.id)" >Delete</button>
+			    			<router-link :to="{path: '/categories/' + category.id+'/edit'}" class="btn btn-success" style="float:right;"  >Edit</router-link>
+			    			<button class="btn btn-danger" style="float:right;margin-right:10px" v-on:click="del(category.id)" >Delete</button>
 			    			
 	    				</div> 
 	    			</div>
@@ -27,18 +27,16 @@
 export default {
 	data(){
 		return {
-
 			categories:"",
-			user:sessionStorage.getItem('user_id'),
-			status:""
-			
+			status:"",
 		}
 		 
 	},
 	created(){
-		this.$http.get('/api/categories').then((response)=>{
-            this.categories = response.data.categories;
-        });
+		this.$http.get('/api/categories/my_categories')
+    		.then((response)=> {
+    			this.categories = response.data.categories;
+    		})
 		
 	},
 	methods:{

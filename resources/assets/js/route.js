@@ -2,10 +2,14 @@ import VueRouter from 'vue-router';
 import Login from './components/login';
 import Register from './components/register';
 import Home from './components/home';
-import MyCategories from './components/my_categories';
-import Categories from './components/categories';
-import Create_cat from './components/create_cat';
-import Edit_cat from './components/edit_cat'
+import MyCategories from './components/category/my_categories';
+import Categories from './components/category/categories';
+import Create_cat from './components/category/create';
+import Edit_cat from './components/category/edit';
+import MyPosts from './components/post/my_posts';
+// import Posts from './components/post/posts';
+import Create_post from './components/post/create';
+// import Edit_post from './components/post/edit'
 
 let routes = [
 
@@ -15,7 +19,11 @@ let routes = [
 	{path:'/categories/my_categories',component:MyCategories},
 	{path:'/categories',component:Categories},
 	{path:'/categories/create',component:Create_cat},
-	{path:'/categories/:id/edit', component:Edit_cat}
+	{path:'/categories/:id/edit', component:Edit_cat},
+	{path:'/posts/my_posts',component:MyPosts},
+	// {path:'/categories',component:Categories},
+	{path:'/posts/create',component:Create_post},
+	// {path:'/categories/:id/edit', component:Edit_cat},
 ];
 export default new VueRouter({
 	routes

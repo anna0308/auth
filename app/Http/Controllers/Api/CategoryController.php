@@ -92,6 +92,7 @@ class CategoryController extends Controller
      */
     public function update($id,Request $request)
     {
+        
         if ($this->category->where('id', $id)->update(['title' => $request->input('title')])) {
 
             return response()->json(['status' => 'Updated successfully.']);

@@ -15,17 +15,15 @@
                           <li><router-link to="/categories/my_categories">My Categories</router-link></li>
                           <li><router-link to="/categories">All Categories</router-link></li> 
                         </ul>
-                        <!-- <li data-toggle="collapse" data-target="#new" class="collapsed">
+                        <li data-toggle="collapse" data-target="#new" class="collapsed">
                            <router-link to=""><i class="fa fa-envelope"></i> Posts<span style="color:black;margin-left:10px"></span><span class="arrow">{{count_post}}</span> </router-link >
-                        </li> -->
+                        </li>
                         <ul class="sub-menu collapse" id="new">
-                         <!--  <li><a ui-sref="my_posts">My Posts</a></li>
-                          <li><a ui-sref="posts">All Posts</a></li> -->
+                          <li><router-link to="/posts/my_posts">My Posts</router-link></li>
+                          <li><router-link to="/posts">All Posts</router-link></li>
                         </ul>
                     </ul>
                 </div>
-                <router-link to="/categories/create" class="btn btn-success">Create Category</router-link>
-                <router-link to="" class="btn btn-success">Create Post</router-link>
             </div>
 </template>
 <script>

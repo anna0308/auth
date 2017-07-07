@@ -61,45 +61,35 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $inputs = [
+       $inputs = [
             'title'      => $request->title,
             'text'       => $request->text,
             'category_id'=> $request->category_id,
         ];
-        $this->validate($request, [
-
-            'title' =>  'required|max:25',
-            'text'  =>  'required',
-        ]);
-        if ($request->hasFile('image')) {
-
-            $this->validate($request, ['image' => 'mimes:jpeg,jpg,png,gif']);
-            $image           = $request->image;
+        if ($request->hasFile('file')) {
+            $this->validate($request, ['file' => 'mimes:jpeg,jpg,png,gif']);
+            $image           = $request->file;
             $image_org       = $image->getClientOriginalName();
             $image_name      = time().rand().$image_org;
-            $inputs['image'] = $image_name;
+            $inputs = ['image'=>$image_name];
             if ($this->post->create($inputs)) {
-
                 $image->move(public_path().'/images/', $image_name);
-                return response()->json(['status' => 'New Post added successfully.']);
-                
+                return response()->json(['status'=> 'New Post added successfully.']);
             } else {
-
-                return redirect()->back()->with('status', 'Something went wrong try again.');
+                return response()->json(['status'=>'Something went wrong try again.']);
             }
-            
         } else {
+            $this->validate($request, [
+            'title' =>  'required|max:25',
+            'text'  =>  'required',
+            ]);
             if ($this->post->create($inputs)) {
-
-               return response()->json(['status' => 'New Post added successfully.']);
-
+               return response()->json(['status'=> 'New Post added successfully.']);
             } else {
-
-               return response()->json(['status' => 'Something went wrong try again.']);
-
+               return response()->json(['status'=>'Something went wrong try again.']);
             }
         }
-        
+            
     }
 
     /**

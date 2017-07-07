@@ -1,5 +1,5 @@
 <template>
-	<div>
+		<div>
 			<router-link to="/categories/create" class="btn btn-success">Create Category</router-link>
 			 <div class="alert alert-success" v-if="status">
                     {{status}}
@@ -15,8 +15,8 @@
 		    				</div>
 		    			<!-- </router-link> -->
 		    			 <div style="width:200px;float:right;">
-			    			<button class="btn btn-success" style="float:right;" v-on:click="edit(category.id)" >Edit</button>
-			    			<button class="btn btn-danger" style="float:right;margin-right:10px" v-on:click="del(category.id)" >Delete</button>
+			    			<router-link :to="{path: '/categories/' + category.id+'/edit'}" class="btn btn-success" style="float:right;" v-if="user == category.parent_id" >Edit</router-link>
+			    			<button class="btn btn-danger" style="float:right;margin-right:10px" v-if="user == category.parent_id"  v-on:click="del(category.id)" >Delete</button>
 			    			
 	    				</div> 
 	    			</div>
@@ -28,32 +28,21 @@ export default {
 	data(){
 		return {
 			categories:"",
-			status:"",
-			edit_id:"",
+			user:sessionStorage.getItem('user_id'),
+			status:""
 		}
-		 
 	},
 	created(){
-		this.$http.get('/api/categories/my_categories')
-    		.then((response)=> {
-    			this.categories = response.data.categories;
-    		})
-		
+		this.$http.get('/api/categories').then((response)=>{
+            this.categories = response.data.categories;
+        });
 	},
 	methods:{
         del(id){
             this.$http.delete('/api/deleteCategory/' + id).then((response)=>{
-                 
                 document.getElementById(id).remove();
                 this.status = response.data.status;
-                
             }); 
-        },
-        edit(id)
-        {
-        	sessionStorage.setItem('edit_id', id);
-            this.edit_id= sessionStorage.getItem('edit_id');
-            window.location='http://laravel.dev/vue/#/categories/'+id+'/edit';
         }
     }
 }
