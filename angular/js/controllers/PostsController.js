@@ -1,12 +1,7 @@
 angular.module('myApp').controller('PostsController',
     ['$scope', '$http', '$state','$location', '$rootScope','$stateParams','Upload', function($scope, $http, $state, $location, $rootScope,$stateParams, Upload) {
 
-    	$rootScope.user = localStorage['user'];
-        $rootScope.id = localStorage['id'];
-        $rootScope.loggedIn = localStorage['loggedIn'];
-        $rootScope.count_user=localStorage['count_user'];
-        $rootScope.count_post=localStorage['count_post'];
-        $rootScope.count_category=localStorage['count_category'];
+    	
         init();
 
         // initial function

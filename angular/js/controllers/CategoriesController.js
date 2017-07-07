@@ -1,12 +1,6 @@
 angular.module('myApp').controller('CategoriesController',
     ['$scope', '$http', '$state','$location', '$rootScope', '$stateParams',function($scope, $http, $state, $location, $rootScope,$stateParams) {
     	
-        $rootScope.user = localStorage['user'];
-        $rootScope.id = localStorage['id'];
-        $rootScope.loggedIn = localStorage['loggedIn'];
-        $rootScope.count_user=localStorage['count_user'];
-        $rootScope.count_post=localStorage['count_post'];
-        $rootScope.count_category=localStorage['count_category'];
         init();
         // initial function
         function init() {
