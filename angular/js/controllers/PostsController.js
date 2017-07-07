@@ -1,4 +1,4 @@
-angular.module('myApp').controller('postController',
+angular.module('myApp').controller('PostsController',
     ['$scope', '$http', '$state','$location', '$rootScope','$stateParams','Upload', function($scope, $http, $state, $location, $rootScope,$stateParams, Upload) {
 
     	$rootScope.user = localStorage['user'];
@@ -27,6 +27,13 @@ angular.module('myApp').controller('postController',
             })  
         }
 
+        function myPosts() {
+            $http.get('/api/posts/my_posts')
+            .then(
+                function(response) {
+                $scope.posts = response.data.posts;
+            })
+        }
         function createPost() {
             $http.get('/api/posts/create').then(function(response){
                 if(response.data.categories === undefined) {
@@ -37,14 +44,6 @@ angular.module('myApp').controller('postController',
                     $scope.has_cat = true;   
                 }
             });
-        }
-
-        function myPosts() {
-            $http.get('/api/posts/my_posts')
-            .then(
-                function(response) {
-                $scope.posts = response.data.posts;
-            })
         }
 
         function editPost() {
@@ -77,10 +76,13 @@ angular.module('myApp').controller('postController',
 
         $scope.delete = function(inputs){
             $scope.inputs = inputs;
-            console.log(inputs);
             $http.delete('/api/deletePost/' + $scope.inputs).then(function(response){
-                document.getElementById($scope.inputs).remove();
                 $scope.status = response.data.status;
+                if($state.current.name == 'posts') {
+                    posts();
+                } else {
+                    myPosts();
+                }
             }); 
             
         }

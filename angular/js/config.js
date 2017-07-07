@@ -7,7 +7,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('login',{
     url: '/',
     templateUrl: 'views/login.html',
-    controller: 'loginController',
+    controller: 'LoginController',
     data :
     {
       guest: true
@@ -16,7 +16,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('register',{
     url: '/register',
     templateUrl: 'views/register.html',
-    controller: 'registerController',
+    controller: 'RegisterController',
     data :
     {
       guest: true
@@ -25,7 +25,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('home',{
     url: '/home',
     templateUrl: 'views/home.html',
-    controller: 'homeController',
+    controller: 'HomeController',
     data :
     {
       guest: false
@@ -34,7 +34,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('create_cat',{
     url: '/categories/create',
     templateUrl: 'views/category/create.html',
-    controller: 'categoryController',
+    controller: 'CategoriesController',
     data :
     {
       guest: false
@@ -43,7 +43,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('my_categories', {
       url: "/categories/my_categories",
       templateUrl: "views/category/my_categories.html",
-      controller: "categoryController",
+      controller: "CategoriesController",
       data :
       {
         guest: false
@@ -52,7 +52,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('categories', {
       url: "/categories",
       templateUrl: "views/category/index.html",
-      controller: "categoryController",
+      controller: "CategoriesController",
       data :
       {
         guest: false
@@ -68,12 +68,12 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
         guest: false
       },
       templateUrl : "views/category/edit.html",
-      controller: 'categoryController'
+      controller: 'CategoriesController'
   })
   .state("update", {
       url: "/categories/:id",
       templateUrl : "views/category/edit.html",
-      controller: 'categoryController',
+      controller: 'CategoriesController',
       data :
       {
         guest: false
@@ -82,7 +82,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('posts', {
       url: "/posts",
       templateUrl: "views/post/index.html",
-      controller: "postController",
+      controller: "PostsController",
       data :
       {
         guest: false
@@ -91,7 +91,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('my_posts', {
       url: "/posts/my_posts",
       templateUrl: "views/post/my_posts.html",
-      controller: "postController",
+      controller: "PostsController",
       data :
       {
         guest: false
@@ -100,7 +100,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
   .state('create_post', {
       url: "/posts/create",
       templateUrl: "views/post/create.html",
-      controller: "postController",
+      controller: "PostsController",
       data :
       {
         guest: false
@@ -117,7 +117,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
           guest: false
         },
         templateUrl : "views/post/edit.html",
-        controller: 'postController'
+        controller: 'PostsController'
   })
   .state("spec_posts", {
         url: "/categories/:id/posts",
@@ -129,7 +129,7 @@ angular.module("myApp").config(function($stateProvider, $urlRouterProvider) {
           guest: false
         },
         templateUrl : "views/post/specified.html",
-        controller: 'categoryController'
+        controller: 'CategoriesController'
   })
   $urlRouterProvider.otherwise("/");
 });

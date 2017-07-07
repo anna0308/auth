@@ -1,4 +1,4 @@
-angular.module('myApp').controller('homeController',
+angular.module('myApp').controller('HomeController',
     ['$scope', '$http', '$state','$location', '$rootScope', function($scope, $http, $state, $location, $rootScope) {
     	
     	

@@ -13,11 +13,11 @@
     <script type="text/javascript" src="js/ng-file-upload/ng-file-upload.min.js"></script>
 
     <!-- Controllers -->
-    <script src='js/controllers/postController.js' type="text/javascript"></script>
-    <script src='js/controllers/loginController.js' type="text/javascript"></script>
-    <script src='js/controllers/registerController.js' type="text/javascript"></script>
-    <script src='js/controllers/homeController.js' type="text/javascript"></script>
-    <script src='js/controllers/categoryController.js' type="text/javascript"></script>
+    <script src='js/controllers/PostsController.js' type="text/javascript"></script>
+    <script src='js/controllers/LoginController.js' type="text/javascript"></script>
+    <script src='js/controllers/RegisterController.js' type="text/javascript"></script>
+    <script src='js/controllers/HomeController.js' type="text/javascript"></script>
+    <script src='js/controllers/CategoriesController.js' type="text/javascript"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@
                     </ul>
 
                     
-                    <ul class="nav navbar-nav navbar-right" ng-controller="loginController">
+                    <ul class="nav navbar-nav navbar-right" ng-controller="LoginController">
                         <li ng-hide="loggedIn" ><a  ui-sref="login">Login</a></li>
                         <li ng-hide="loggedIn"><a ui-sref="register">Register</a></li>
                         <li ng-show="loggedIn" > 

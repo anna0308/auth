@@ -1,6 +1,5 @@
-angular.module('myApp').controller('loginController',
+angular.module('myApp').controller('LoginController',
     ['$scope', '$http', '$state','$location', '$rootScope', function($scope, $http, $state, $location, $rootScope) {
-		// localStorage.clear();
     	$scope.inputs = {};
     	$rootScope.user = '';
     	$rootScope.loggedIn = false;

@@ -5,11 +5,11 @@ app.run(['$rootScope', '$state', function($rootScope, $state){
     		e.preventDefault();
     		$state.go('home', {}, {reload: true});
     		return false;
-    	} //else if(!toState.data.guest) {
-    	// 	e.preventDefault();
-    	// 	$state.go('login', {}, {reload: true});
-    	// 	return false;
-    	// }
+    	} else if(!toState.data.guest && !$rootScope.loggedIn) {
+    		e.preventDefault();
+    		$state.go('login', {}, {reload: true});
+    		return false;
+    	} 
 
     });
 }])

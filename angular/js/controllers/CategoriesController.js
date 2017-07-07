@@ -1,4 +1,4 @@
-angular.module('myApp').controller('categoryController',
+angular.module('myApp').controller('CategoriesController',
     ['$scope', '$http', '$state','$location', '$rootScope', '$stateParams',function($scope, $http, $state, $location, $rootScope,$stateParams) {
     	
         $rootScope.user = localStorage['user'];
@@ -61,8 +61,12 @@ angular.module('myApp').controller('categoryController',
         $scope.delete = function(inputs){
             $scope.inputs = inputs;
             $http.delete('/api/deleteCategory/' + $scope.inputs).then(function(response){
-                document.getElementById($scope.inputs).remove();
                 $scope.status = response.data.status;
+                if($state.current.name == 'categories') {
+                    categories();
+                } else {
+                    myCategories();
+                }
             }); 
         }
 

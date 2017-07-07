@@ -1,9 +1,7 @@
-angular.module('myApp').controller('registerController',['$http', '$scope','$rootScope', '$state', function($http, $scope,$rootScope, $state) {
-    // localStorage.clear();
+angular.module('myApp').controller('RegisterController',['$http', '$scope','$rootScope', '$state', function($http, $scope,$rootScope, $state) {
     $scope.inputs = {};
     $rootScope.user = '';
     $rootScope.loggedIn = false;
-    console.log($rootScope.loggedIn);
     
     $scope.submit = function(inputs) {
         $http.post('/api/register', $scope.inputs)
