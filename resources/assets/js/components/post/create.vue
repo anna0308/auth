@@ -7,7 +7,7 @@
                    <div class="alert alert-success" v-if="status">
                         {{status}}
                     </div>
-                    <form   v-show="has_cat" enctype="multipart/form-data" accept-charset="UTF-8" @button.prevent="addPost">
+                    <form   v-show="has_cat"  accept-charset="UTF-8" @button.prevent="addPost">
                         
                         <div class="form-group ">
                             <label for="Title:">Title:</label>
@@ -70,34 +70,23 @@ export default {
     },
     methods:{
         imageChanged(e){
-            var myData = new FormData();
-            myData.append("file", e.target.files[0]);
-            myData.append("title", this.title);
-            myData.append("text", this.title);
-            myData.append("category_id", this.category_id);
-            this.image=myData;
-            console.log(myData);
+            if(e.target.files && e.target.files[0]) {
+                this.image = e.target.files[0];
+            }
         },
         addPost() {
             this.$validator.validateAll().then(()=>{
-
-                var image =this.image ;
-                var inputs={title:this.title,text:this.text, category_id:this.category_id};
-                if((this.image && inputs.title && inputs.text && inputs.category_id)!=""){
-                    // this.$http.post('/api/addPost',inputs).then((response)=>{
-                    // console.log(response);
-                    // })
-                    // this.$http.post('/api/addPost',image).then(function(response){
-                    //     console.log(response);
-                    //     })
-                    
-
-                } else if(this.image="" && (inputs.title && inputs.text && inputs.category_id)!=""){
-                    this.$http.post('/api/addPost',inputs).then(function(response){
-                    console.log(response);
+                var inputs={title:this.title,text:this.text, category_id:this.category_id ,image:this.image};
+                var myData = new FormData();
+                for(var i in inputs) {
+                    myData.append(i, inputs[i]);
+                };
+                if((inputs.title && inputs.text && inputs.category_id)!=""){
+                    this.$http.post('/api/addPost',myData).then((response)=>{
+                        this.status=response.data.status;
                     })
-                }
-            })  
+                } 
+            }) 
        }
     }
 }

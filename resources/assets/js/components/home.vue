@@ -37,7 +37,6 @@ export default {
 		 
 	},
 	mounted(){
-	
 		this.$http.get('/api/home')
 	        .then(
 	            (response) =>{ 

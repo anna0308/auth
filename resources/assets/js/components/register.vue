@@ -81,11 +81,8 @@
                     };
                     if((inputs.name && inputs.email && inputs.password && inputs.password_confirmation)  != "" && inputs.password===inputs.password_confirmation) {
                         this.$http.post('/api/register', inputs)
-                        .then(
-                            function(response) { 
-                                // localStorage.setItem('name',response.data.name);
-                                // $rootScope.name = localStorage['name'];
-                                // $state.go('login');
+                        .then((response) =>{ 
+                                this.$router.push('/login');
                             }
                         ); 
                     }
@@ -96,9 +93,6 @@
                return document.querySelector('#token').getAttribute('content');
            }
         }
-        // mounted() {
-        //     alert("hello");
-        // }
     }
     
 </script>

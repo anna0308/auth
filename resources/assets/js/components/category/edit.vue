@@ -1,8 +1,8 @@
 <template>
 	<div style='width: 600px;margin:0 auto;'>
  		<div class="alert alert-success" v-if="status">
-                    {{status}}
-                </div>
+            {{status}}
+        </div>
 		<form accept-charset="UTF-8">
             <div class="form-group ">
                 <label for="Title:">Category-title:</label>

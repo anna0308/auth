@@ -22,6 +22,7 @@ Vue.use(VeeValidate);
 //Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
+    router,
     el: '#app',
-    router
-});
+    
+})
