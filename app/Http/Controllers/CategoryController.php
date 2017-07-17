@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
+use App\Interfaces\CategoryServiceInterface;
 use Illuminate\Http\Request;
 use App\Category;
+use App\Post;
 use Auth;
 
 class CategoryController extends Controller
 {
-    public function __construct(Category $category)
+    public function __construct(Category $category,Post $post)
     {
         $this->category = $category;
+        $this->post = $post;
         $this->middleware('auth');
     }
    
@@ -21,9 +24,9 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(CategoryServiceInterface $categoryService)
     {
-        $categories = $this->category->get(); 
+        $categories = $categoryService->index();
         return view('category/index', ['categories' => $categories]);
     }
 
@@ -43,15 +46,12 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,CategoryServiceInterface $categoryService)
     {
         $this->validate($request, ['title' => 'required|max:25']);
-        if($this->category->create(['title' => $request->title,'parent_id' => Auth::user()->id])) {
-
+        if($categoryService->store(['title' => $request->title,'parent_id' => Auth::user()->id])) {
             return redirect()->back()->with('status', 'New Category added successfully.');
-
         } else {
-
             return redirect()->back()->with('status', 'Something went wrong.');
         }
     }
@@ -72,9 +72,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,CategoryServiceInterface $categoryService)
     {
-        $category = $this->category->find($id);
+        $category =  $categoryService->edit($id);
         return view('category/edit', ['category' => $category]);
     }
     /**
@@ -84,14 +84,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id,Request $request)
+    public function update($id,Request $request,CategoryServiceInterface $categoryService)
     {
-        if ($this->category->where('id', $id)->update(['title' => $request->input('title')])) {
-
+        if ($categoryService->update($id,['title' => $request->input('title')])) {
             return redirect('/categories');
-
         } else {
-
             return redirect('/categories')->with('status', 'Something went wrong.');
         }
     }
@@ -101,21 +98,20 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id,CategoryServiceInterface $categoryService)
     {
-        if ($this->category->where('id',$id)->delete()) {
-
+        if ($categoryService->destroy($id)) {
+            $this->post->where('category_id',$id)->delete();
             return redirect()->back();
-            
         } else {
-            
             return redirect('/categories')->with('status', 'Something went wrong.');
         }
     }
 
-    public function showMyCategores()
+    public function showMyCategores(CategoryServiceInterface $categoryService)
     {
-        $categories = $this->category->where('parent_id', Auth::user()->id)->get();
+        $user_id = Auth::user()->id;
+        $categories = $categoryService->showMyCategores($user_id);
         return view('category.my_categories', ['categories' => $categories]);
     }
 }

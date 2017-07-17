@@ -40,7 +40,14 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
-
+$app->singleton(
+	'App\Interfaces\CategoryServiceInterface',
+	'App\Services\CategoryServices'
+);
+$app->singleton(
+	'App\Interfaces\PostServiceInterface',
+	'App\Services\PostServices'
+);
 /*
 |--------------------------------------------------------------------------
 | Return The Application

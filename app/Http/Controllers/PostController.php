@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
+use App\Interfaces\PostServiceInterface;
+use App\Interfaces\CategoryServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Category;
@@ -20,9 +22,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(PostServiceInterface $postService)
     {
-        $posts= $this->post->get(); 
+        $posts = $postService->index(); 
         return view('post/index', ['posts' => $posts]);
     }
 
@@ -31,13 +33,11 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Category $category)
+    public function create(CategoryServiceInterface $categoryService)
     {
         $user_id = Auth::user()->id;
-        $category_count = $category->where('parent_id', $user_id)->count();
-        if ($category_count != 0) {
-            $user       = Auth::user();
-            $categories = $user->categories; 
+        $categories = $categoryService->showMyCategores($user_id);
+        if (count($categories) != 0) {
             return view('post/create',['categories' => $categories]);
         } else {
             return redirect('/posts')->with('status', 'First crate category.');
@@ -50,7 +50,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,PostServiceInterface $postService)
     {
         $inputs = [
             'title'      => $request->title,
@@ -69,24 +69,17 @@ class PostController extends Controller
             $image_org       = $image->getClientOriginalName();
             $image_name      = time().rand().$image_org;
             $inputs['image'] = $image_name;
-            if ($this->post->create($inputs)) {
-
+            if ($postService->store($inputs)) {
                 $image->move(public_path().'/images/', $image_name);
                 return redirect()->back()->with('status', 'New Post added successfully.');
             } else {
-
                 return redirect()->back()->with('status', 'Something went wrong try again.');
             }
-            
         } else {
-            if ($this->post->create($inputs)) {
-
+            if ($postService->store($inputs)) {
                return redirect()->back()->with('status', 'New Post added successfully.');
-
             } else {
-
                return redirect()->back()->with('status', 'Something went wrong try again.');
-
             }
         }
         
@@ -108,10 +101,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,PostServiceInterface $postService,CategoryServiceInterface $categoryService)
     {
-        $post = $this->post->find($id);
-        $categories = Auth::user()->categories;
+        $post = $postService->edit($id);
+        $categories = $categoryService->showMyCategores($id);
         return view('post/edit', ['post' => $post,'categories' => $categories]);
     }
 
